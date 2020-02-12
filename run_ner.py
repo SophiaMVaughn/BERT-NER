@@ -96,7 +96,7 @@ def readfile(filename):
     '''
     read file
     '''
-    f = open(filename)
+    f = open(filename, encoding='cp437')
     data = []
     sentence = []
     label= []

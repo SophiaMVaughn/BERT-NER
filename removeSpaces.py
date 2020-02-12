@@ -18,8 +18,8 @@ def removeTags():
     newfile.close()
 
 def removeSpaces():
-    file = open("./data/train.txt",'r')
-    newfile = open("./data/writing.txt","w")
+    file = open("./data/test.txt",encoding='utf-8')
+    newfile = open("./data/test2.txt","w",encoding='utf-8')
     line = file.readline()
     while line:
         if line=='\n':
@@ -34,5 +34,5 @@ def removeSpaces():
     newfile.close()
 
 
-#removeSpaces()
-removeTags()
+removeSpaces()
+#removeTags()
