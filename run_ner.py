@@ -75,8 +75,11 @@ class InputExample(object):
         """
         self.guid = guid
         self.text_a = text_a
+        #print("TEXT A ", self.text_a)
         self.text_b = text_b
+        #print("TEXT B ", self.text_b)
         self.label = label
+        #print("LABEL ", self.label)
 
 class InputFeatures(object):
     """A single set of features of data."""
@@ -154,11 +157,13 @@ class NerProcessor(DataProcessor):
             self._read_tsv(os.path.join(data_dir, "test.txt")), "test")
 
     def get_labels(self):
-        return ["O", "B-MISC", "I-MISC",  "B-PER", "I-PER", "B-ORG", "I-ORG", "B-LOC", "I-LOC", "[CLS]", "[SEP]"]
+        return ["O", "B-chem", "I-chem", "B-PERCENT", "I-PERCENT", "B-EVENT", "I-EVENT","B-QUANTITY", "I-QUANTITY", "B-PRODUCT","I-PRODUCT","B-ORG", "I-ORG","B-LAW", "I-LAW","B-NORP", "I-NORP", "B-ORDINAL", "I-ORDINAL","B-WORK_OF_ART", "I-WORK_OF_ART","B-LOC", "I-LOC","B-DATE", "I-DATE","B-GPE", "I-GPE","B-CARDINAL", "I-CARDINAL","B-PERSON", "I-PERSON","B-FAC", "I-FAC","B-TIME", "I-TIME","B-MONEY", "I-MONEY","[CLS]", "[SEP]"]
 
     def _create_examples(self,lines,set_type):
         examples = []
+        #print(lines)
         for i,(sentence,label) in enumerate(lines):
+            #print("SENT",sentence,"LABEL",label)
             guid = "%s-%s" % (set_type, i)
             text_a = ' '.join(sentence)
             text_b = None
@@ -173,8 +178,11 @@ def convert_examples_to_features(examples, label_list, max_seq_length, tokenizer
 
     features = []
     for (ex_index,example) in enumerate(examples):
+        #print(example.text_b)
         textlist = example.text_a.split(' ')
+        #print(textlist)
         labellist = example.label
+        #print(labellist)
         tokens = []
         labels = []
         valid = []
@@ -402,7 +410,9 @@ def main():
         raise ValueError("Task not found: %s" % (task_name))
 
     processor = processors[task_name]()
+
     label_list = processor.get_labels()
+
     num_labels = len(label_list) + 1
 
     tokenizer = BertTokenizer.from_pretrained(args.bert_model, do_lower_case=args.do_lower_case)
